@@ -75,12 +75,6 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Task_Description__c</fields>
-        <fields>Completed__c</fields>
-        <relatedList>Task__c.Journey_del__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <relatedList>Template_Task__c.Journey__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
