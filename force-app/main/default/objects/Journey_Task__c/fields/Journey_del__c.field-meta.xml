@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Journey_del__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Journey</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Journey__c.OwnerId</field>
+            <operation>equals</operation>
+            <valueField>$User.Id</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Journey__c</referenceTo>
+    <relationshipName>Tasks_del</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
