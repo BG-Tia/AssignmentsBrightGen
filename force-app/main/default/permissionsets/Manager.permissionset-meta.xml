@@ -10,7 +10,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Journey_Task__c</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -19,7 +19,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Journey__c</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -28,7 +28,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Template_Task__c</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -37,6 +37,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Template__c</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
 </PermissionSet>
