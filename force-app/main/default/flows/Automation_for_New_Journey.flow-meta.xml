@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <assignments>
+        <description>Assigns the Journey ID to an empty variable so it can be used to generate a URL.</description>
+        <name>JourneyIDAssignment</name>
+        <label>JourneyIDAssignment</label>
+        <locationX>270</locationX>
+        <locationY>974</locationY>
+        <assignmentItems>
+            <assignToReference>Create_Journey</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewJourneyID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Journey</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assignments for the modified variables.</description>
+        <name>Modify_Assign</name>
+        <label>Modify_Assign</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>NewTaskName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Task_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTaskRequirements</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Task_Requirements</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewDaysToComplete</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Relative_Days_to_Complete</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Tasks</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>Edit_Tasks</name>
+        <choiceText>Edit Tasks</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Edit Tasks</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Leave</name>
+        <choiceText>Leave</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Leave</stringValue>
+        </value>
+    </choices>
+    <decisions>
+        <description>Decision for user to modify or leave tasks.</description>
+        <name>Modify_Tasks</name>
+        <label>Modify Tasks</label>
+        <locationX>270</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Create_Journey</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Edit_Task_Decision</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Edit_Tasks</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Edit_Tasks_Screen</targetReference>
+            </connector>
+            <label>Edit Task Decision</label>
+        </rules>
+        <rules>
+            <name>Leave_Task_Decision</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Leave</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Journey</targetReference>
+            </connector>
+            <label>Leave Task Decision</label>
+        </rules>
+    </decisions>
+    <description>Allows a user to create a Journey from a template and allows for a user to modify Names, Requirements and Days to Complete of a task.</description>
+    <environments>Default</environments>
+    <interviewLabel>Automation for New Journey {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Automation for New Journey</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <description>Creates the Journey from the template either updated or left as is.</description>
+        <name>Create_Journey</name>
+        <label>Create Journey</label>
+        <locationX>270</locationX>
+        <locationY>866</locationY>
+        <connector>
+            <targetReference>JourneyIDAssignment</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Employee_Email__c</field>
+            <value>
+                <elementReference>DefaultEmployeeEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Employee_Name__c</field>
+            <value>
+                <elementReference>DefaultEmployeeName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Manager_Email__c</field>
+            <value>
+                <elementReference>DefaultManagerEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Manager_Name__c</field>
+            <value>
+                <elementReference>DefaultManagerName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>DefaultJourneyName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Onboarding_Start_Date__c</field>
+            <value>
+                <elementReference>DefaultStartDate</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Journey__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>Specifying the object from where im retrieving records from.</description>
+        <name>Get_Templates</name>
+        <label>Get Templates</label>
+        <locationX>270</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Choice_Screen</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Template__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the modified tasks.</description>
+        <name>Update_Tasks</name>
+        <label>Update Tasks</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <connector>
+            <targetReference>Create_Journey</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>NewTaskName</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>NewTaskName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Relative_Days_to_Complete__c</field>
+            <value>
+                <elementReference>NewDaysToComplete</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Task_Description__c</field>
+            <value>
+                <elementReference>NewTaskRequirements</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Template_Task__c</object>
+    </recordUpdates>
+    <screens>
+        <description>Where users decide to change or keep as is.</description>
+        <name>Choice_Screen</name>
+        <label>Choice Screen</label>
+        <locationX>270</locationX>
+        <locationY>242</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Modify_Tasks</targetReference>
+        </connector>
+        <fields>
+            <name>Edit_Tasks_Leave</name>
+            <choiceReferences>Edit_Tasks</choiceReferences>
+            <choiceReferences>Leave</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Edit Tasks/Leave</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>Where users edit the task</description>
+        <name>Edit_Tasks_Screen</name>
+        <label>Edit Tasks Screen</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Modify_Assign</targetReference>
+        </connector>
+        <fields>
+            <name>Task_Name</name>
+            <dataType>String</dataType>
+            <fieldText>Task Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Task_Requirements</name>
+            <dataType>String</dataType>
+            <fieldText>Task Requirements</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Relative_Days_to_Complete</name>
+            <dataType>Number</dataType>
+            <fieldText>Relative Days to Complete</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Journey</name>
+        <label>Journey</label>
+        <locationX>270</locationX>
+        <locationY>1082</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>New_Journey</name>
+            <defaultValue>
+                <stringValue>New journey has been created. 
+{!JourneyURL}</stringValue>
+            </defaultValue>
+            <fieldText>New Journey...</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+        </fields>
+        <nextOrFinishButtonLabel>Ok.</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>144</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Templates</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <description>Holds the value so it cant be changed.</description>
+        <name>DefaultEmployeeEmail</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the value so it cant be changed.</description>
+        <name>DefaultEmployeeName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the value so it cant be changed.</description>
+        <name>DefaultJourneyName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the value so it cant be changed.</description>
+        <name>DefaultManagerEmail</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the value so it can&apos;t be changed.</description>
+        <name>DefaultManagerName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Holds the value so it cant be changed.</description>
+        <name>DefaultStartDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Displays message to a user to say the journey has been created.</description>
+        <name>JourneyCreation</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>Journey has been created.</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Displays the new Journeys URL for a user.</description>
+        <name>JourneyURL</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>&quot;https://platform-page-1874-dev-ed.scratch.lightning.force.com/lightning/r/&quot; &amp; {!NewJourneyID}</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Users will provide this information if they edit the task days to complete.</description>
+        <name>NewDaysToComplete</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>Holds the new journey ID to display a URL for a user after the record is created.</description>
+        <name>NewJourneyID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Users will provide this information if they edit the task name.</description>
+        <name>NewTaskName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Users will provide this information if they edit the task requirements.</description>
+        <name>NewTaskRequirements</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
